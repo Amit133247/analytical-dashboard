@@ -4,10 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { ChartProvider } from './store/ChartProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <GoogleOAuthProvider clientId="322051925111-k6amdp4sqr2dskobsg9hf9eh4gur8ap0.apps.googleusercontent.com">
+  <ChartProvider>
+
     <App />
+  </ChartProvider>
   // </GoogleOAuthProvider>
 );
 

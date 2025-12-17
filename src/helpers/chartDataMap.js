@@ -20,3 +20,6 @@ export const chartDataMap = {
     options: { chart: { id: "area" }, xaxis: { categories: ["Q1", "Q2", "Q3", "Q4"] } },
   },
 };
+
+
+

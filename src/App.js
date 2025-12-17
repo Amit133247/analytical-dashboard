@@ -6,16 +6,16 @@ import { Box, } from "@mui/material";
 import DropArea from "./Components/DropArea";
 import Sidebar from "./Components/Sidebar";
 import { getDefaultCategories } from "./utils/defaultCategories";
+import { useChartContext } from "./store/ChartProvider";
 
 
 const MIN_SIDEBAR_WIDTH = 180;
 const MAX_SIDEBAR_WIDTH = 500;
 
 const App = () => {
-  const [charts, setCharts] = useState([]);
   const [sidebarWidth, setSidebarWidth] = useState(250);
   const [isResizing, setIsResizing] = useState(false);
-
+  const {setCharts, charts} = useChartContext();
   // Mouse event handlers for resizing
   const handleMouseDown = (e) => {
     setIsResizing(true);
@@ -91,7 +91,7 @@ const App = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <Box display="flex" height="100vh">
+      <Box display="flex" maxHeight="100vh">
         <DropArea
           onDrop={handleDrop}
           charts={charts}

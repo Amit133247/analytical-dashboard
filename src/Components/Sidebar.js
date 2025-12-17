@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Typography, Stack, IconButton } from "@mui/material";
+import { Box, Typography, Stack, IconButton, styled } from "@mui/material";
 import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 import TextField from "@mui/material/TextField";
@@ -13,10 +13,14 @@ import DraggableChartIcon from "./DraggableChartIcon";
 import CloseIcon from '@mui/icons-material/Close';
 import Divider from "@mui/material/Divider";
 import EditIcon from "@mui/icons-material/Edit";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import UploadDialog from "./UploadDialog";
+
 
 const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
     const [editingChartIdx, setEditingChartIdx] = useState(null);
     const [tempChartName, setTempChartName] = useState("");
+    const [chartType, setChartType] = useState(null);
     return (
         <Box
             sx={{
@@ -24,7 +28,6 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
                 height: "100vh",
                 overflowY: "auto",
                 boxSizing: "border-box",
-                py: 2,
                 px: 2,
                 borderLeft: "1px solid #ddd",
                 bgcolor: "#fff",
@@ -85,11 +88,13 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
             </Stack>
 
             {charts.map((chart, index) => (
-                <Accordion key={index} sx={{ mb: 2, boxShadow: "none", bgcolor: "transparent" ,"&.Mui-expanded": {
-      margin: 0, // Keep margin 0 even when expanded
-    }, "&::before": {
-      background: "none !important", // Override the default background line
-    }, }}>
+                <Accordion key={index} sx={{
+                    mb: 2, boxShadow: "none", bgcolor: "transparent", "&.Mui-expanded": {
+                        margin: 0, // Keep margin 0 even when expanded
+                    }, "&::before": {
+                        background: "none !important", // Override the default background line
+                    },
+                }}>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         sx={{
@@ -110,16 +115,16 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
       4px 4px 12px #e0e0e0,
       -4px -4px 12px #ffffff
     `,
-     "&.Mui-expanded": {
-      minHeight: 48, 
-    },
+                            "&.Mui-expanded": {
+                                minHeight: 48,
+                            },
                             minHeight: 48,
                             "& .MuiAccordionSummary-content": {
                                 alignItems: "center",
                                 my: 1,
                                 justifyContent: "space-between",
                             },
-                           
+
                         }}
                     >
                         {editingChartIdx === index ? (
@@ -139,7 +144,7 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
                                     }
                                 }}
                                 sx={{
-                                    color:"#525c61ff",
+                                    color: "#525c61ff",
                                     width: "100%",
                                     input: {
                                         fontWeight: "bold",
@@ -151,7 +156,7 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
                             />
                         ) : (
                             <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
-                                <Typography  color="#525c61ff" variant="subtitle2" sx={{ fontWeight: "bold", userSelect: "none" }}>
+                                <Typography color="#525c61ff" variant="subtitle2" sx={{ fontWeight: "bold", userSelect: "none" }}>
                                     {(chart.name || chart.type).toUpperCase()}
                                 </Typography>
                                 <IconButton
@@ -169,6 +174,37 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
                     </AccordionSummary>
 
                     <AccordionDetails sx={{ bgcolor: "#fff", borderRadius: "0 0 10px 10px", p: 1 }}>
+                        <Button
+                            variant="contained"
+                            tabIndex={-1}
+                            startIcon={<CloudUploadIcon />}
+                            fullWidth
+                            onClick={() => setChartType(chart.type)}
+                            sx={{
+                                bgcolor: "#f6f7fb",
+                                color: "#1976d2",
+                                fontSize: 16,
+                                boxShadow: `
+                8px 8px 16px #e0e2f1,
+                -8px -8px 16px #ffffff
+              `,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textTransform: "none",
+                                transition: "box-shadow 0.2s, background 0.2s",
+                                '&:hover': {
+                                    boxShadow: `
+                  4px 4px 8px #e0e2f1,
+                  -4px -4px 8px #ffffff
+                `,
+                                    bgcolor: "#f0f1f6",
+                                },
+                            }}
+                        >
+                            Upload files
+
+                        </Button>
                         {chart.categories.map((cat, catIdx) => (
                             <span
                                 key={catIdx}
@@ -188,7 +224,7 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
                                     fullWidth
                                     sx={{
                                         mr: 1,
-                                        color:'#525c61ff',
+                                        color: '#525c61ff',
                                         borderRadius: "5px",
                                         boxShadow: `
                     8px 8px 16px #e0e0e0,
@@ -340,6 +376,8 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
                     </AccordionDetails>
                 </Accordion>
             ))}
+
+            <UploadDialog chartType={chartType} setChartType={setChartType} />
         </Box>
     );
 }

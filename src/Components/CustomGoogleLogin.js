@@ -1,6 +1,7 @@
 // GoogleCustomLoginButton.jsx
 import React from 'react';
 import {jwtDecode} from 'jwt-decode';
+import { Button } from '@mui/material';
 
 const GoogleCustomLoginButton = () => {
   const handleLogin = () => {
@@ -23,20 +24,24 @@ const GoogleCustomLoginButton = () => {
   };
 
   return (
-    <button
+    <Button
+    size='small'
       onClick={handleLogin}
-      style={{
-        padding: '10px 20px',
-        backgroundColor: '#4285F4',
-        color: 'white',
-        border: 'none',
-        borderRadius: '4px',
-        fontSize: '16px',
-        cursor: 'pointer',
+      
+      sx={{
+           bgcolor: "#f6f7fb",
+                                color: "#1976d2",
+                                fontWeight: "bold",
+                                fontSize: 14,
+                                px: 2,  
+                                py: 1,
+                               boxShadow: "8px 8px 16px #e0e0e0, -8px -8px 16px #ffffff",
+                                transition: "box-shadow 0.2s",
+                                  textTransform: "none",
       }}
-    >
+    > 
       Continue with Google
-    </button>
+    </Button>
   );
 };
 

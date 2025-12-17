@@ -9,10 +9,11 @@ import { Popover, IconButton, } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PaletteIcon from '@mui/icons-material/Palette';
 import GoogleCustomLoginButton from "./CustomGoogleLogin";
+import { useChartContext } from "../store/ChartProvider";
 
 
 
-const DropArea = ({ onDrop, charts, setCharts }) => {
+const DropArea = ({ onDrop}) => {
     const [{ isOver }, drop] = useDrop(() => ({
         accept: "CHART",
         drop: (item) => onDrop(item.type),
@@ -21,12 +22,13 @@ const DropArea = ({ onDrop, charts, setCharts }) => {
         }),
     }));
 
+    const {setCharts, charts} = useChartContext();
     const [chartSizes, setChartSizes] = React.useState({}); // { [index]: { width, height } }
     const [activeResizeIdx, setActiveResizeIdx] = React.useState(null);
     const resizingRef = React.useRef({ chartIdx: null, startX: 0, startY: 0, startWidth: 0, startHeight: 0 });
     const [popoverAnchorEl, setPopoverAnchorEl] = React.useState(null);
     const [selectedChartIdx, setSelectedChartIdx] = React.useState(null);
-    const [dropAreaBgColor, setDropAreaBgColor] = React.useState("#fafafa");
+    console.log("DropArea charts:", charts);
 
     const handleChartMouseMove = (e) => {
         const { chartIdx, startX, startY, startWidth, startHeight } = resizingRef.current;
@@ -134,16 +136,14 @@ const DropArea = ({ onDrop, charts, setCharts }) => {
                 sx={{
                     position: "relative",
                     flex: 1,
-                    height: "calc(100vh - 32px)",
+                    height: "100vh",
                     boxSizing: "border-box",
-                    py: 2,
-                    px: 2,
-                    bgcolor: isOver ? "#f0f0f0" : "#fafafa",
+                    bgcolor: isOver ? "#f0f0f0" : "#fafafaff",
 
                 }}
             >
-                <Stack direction='row' alignItems='center' justifyContent='space-between' >
-                    <Typography variant="h6" sx={{ mb: 2 }}>
+                <Stack direction='row' alignItems='center' justifyContent='space-between' px={2} sx={{height: "8%"}}>
+                    <Typography variant="h6" >
                         Drop charts here
                     </Typography>
                     <GoogleCustomLoginButton/>
@@ -155,10 +155,8 @@ const DropArea = ({ onDrop, charts, setCharts }) => {
                     sx={{
                         position: "relative",
                         flex: 1,
-                        height: "100%",
+                        height: "92%",
                         overflowY: "auto",
-                        boxSizing: "border-box",
-
                         bgcolor: isOver ? "#f0f0f0" : "#fafafa",
                         border: "2px dashed #ccc",
                     }}
