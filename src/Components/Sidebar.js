@@ -30,7 +30,7 @@ const Sidebar = ({ charts, onCategoryChange, onChartNameChange, width }) => {
                 boxSizing: "border-box",
                 px: 2,
                 borderLeft: "1px solid #ddd",
-                bgcolor: "#fff",
+                bgcolor: "#fbc02d",
                 transition: "width 0.1s",
             }}
         >
