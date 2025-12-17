@@ -41,6 +41,7 @@ pipeline {
                 "C:\\Program Files\\PuTTY\\plink.exe" ^
                 -batch ^
                 -i C:\\jenkins-keys\\googlemeet-key.ppk ^
+                -hostkey "ssh-ed25519 255 SHA256:Fnrl8pLn/7yp/npnywTBccqesv9bKCTFQJCQoACep60" ^
                 ec2-user@100.31.156.45 ^
                 "docker pull amit133247/analytical-playground:latest && \
                  docker stop analytical-playground || true && \
