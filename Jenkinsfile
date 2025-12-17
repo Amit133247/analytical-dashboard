@@ -34,6 +34,21 @@ pipeline {
                 }
             }
         }
+
+         stage('Deploy to EC2') {
+            steps {
+                bat """
+                "C:\\Program Files\\PuTTY\\plink.exe" ^
+                -batch ^
+                -i C:\\jenkins-keys\\googlemeet-key.ppk ^
+                ec2-user@100.31.156.45 ^
+                "docker pull amit133247/analytical-playground:latest && \
+                 docker stop analytical-playground || true && \
+                 docker rm analytical-playground || true && \
+                 docker run -d --name analytical-playground -p 80:80 amit133247/analytical-playground:latest"
+                """
+            }
+        }
        
     }
 }
