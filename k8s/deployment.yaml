@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytical-playground
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: analytical-playground
+  template:
+    metadata:
+      labels:
+        app: analytical-playground
+    spec:
+      containers:
+      - name: analytical-playground
+        image: amit133247/analytical-playground:latest
+        ports:
+        - containerPort: 80
+        # Optional: add readiness and liveness probes
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 20

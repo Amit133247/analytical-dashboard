@@ -35,17 +35,22 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+         stage('Deploy to EC2') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
-                    bat '''
-                    set KUBECONFIG=%KUBECONFIG_FILE%
-                    kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                    kubectl rollout status deployment analytical-playground
-                    '''
-                }
+                bat """
+                "C:\\Program Files\\PuTTY\\plink.exe" ^
+                -batch ^
+                -i C:\\jenkins-keys\\googlemeet-key.ppk ^
+                -hostkey "ssh-ed25519 255 SHA256:Fnrl8pLn/7yp/npnywTBccqesv9bKCTFQJCQoACep60" ^
+                ec2-user@100.31.156.45 ^
+                "docker pull amit133247/analytical-playground:latest && \
+                 docker stop analytical-playground || true && \
+                 docker rm analytical-playground || true && \
+                 docker run -d --name analytical-playground -p 80:80 amit133247/analytical-playground:latest"
+                """
             }
         }
+        
+       
     }
 }
